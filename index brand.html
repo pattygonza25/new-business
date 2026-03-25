@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Oportunidad — DC Shoes · Ocean Pacific · y más</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #18160f;
+    --ink-mid: #3d3a30;
+    --ink-light: #7a7460;
+    --cream: #f8f5ef;
+    --cream-2: #f0ece3;
+    --cream-3: #e5e0d4;
+    --accent: #c0421a;
+    --accent-light: #faeae4;
+    --green: #1e5c38;
+    --green-light: #e4f0e8;
+    --amber: #8a5200;
+    --amber-light: #fdf3e0;
+    --red: #991f1f;
+    --red-light: #fdeaea;
+    --blue: #1a4a7a;
+    --blue-light: #e6f0fa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink-mid);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .fade-up { animation: fadeUp 0.55s ease both; }
+  .fade-up-2 { animation: fadeUp 0.55s 0.1s ease both; }
+  .fade-up-3 { animation: fadeUp 0.55s 0.2s ease both; }
+  .fade-up-4 { animation: fadeUp 0.55s 0.3s ease both; }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 64px 48px 80px; }
+
+  /* ── COVER ── */
+  .cover { padding-bottom: 48px; border-bottom: 1.5px solid var(--ink); margin-bottom: 56px; }
+  .cover-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; line-height: 1.08; color: var(--ink);
+    margin-bottom: 20px; max-width: 600px;
+  }
+  .cover-title em { font-style: italic; color: var(--accent); }
+  .cover-sub {
+    font-size: 16px; color: var(--ink-light); max-width: 520px;
+    line-height: 1.6; margin-bottom: 28px;
+  }
+  .cover-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .cover-meta-item { font-size: 12px; color: var(--ink-light); line-height: 1.6; }
+  .cover-meta-item strong { display: block; color: var(--ink-mid); font-weight: 500; font-size: 13px; }
+
+  /* ── SECTION HEADERS ── */
+  .section { margin-bottom: 56px; }
+  .section-num {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; color: var(--ink); margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cream-3);
+  }
+
+  /* ── PROSE ── */
+  .prose { font-size: 14.5px; color: var(--ink-mid); line-height: 1.75; margin-bottom: 16px; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* ── CHANNEL TABLE ── */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px; margin-top: 20px;
+  }
+  .channel-card {
+    background: white; border: 1px solid var(--cream-3);
+    border-radius: 10px; padding: 18px 20px;
+    transition: box-shadow 0.2s;
+  }
+  .channel-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .channel-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .channel-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .status-badge {
+    font-size: 10px; font-weight: 500; padding: 3px 9px;
+    border-radius: 20px; letter-spacing: 0.04em; flex-shrink: 0;
+  }
+  .status-active { background: var(--green-light); color: var(--green); }
+  .status-weak { background: var(--amber-light); color: var(--amber); }
+  .status-unknown { background: var(--cream-2); color: var(--ink-light); }
+  .channel-brands { font-size: 11px; color: var(--ink-light); margin-bottom: 8px; }
+  .channel-note { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .channel-tag {
+    display: inline-block; margin-top: 8px; font-size: 10px;
+    background: var(--cream-2); color: var(--ink-light);
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .channel-tag.warn { background: var(--amber-light); color: var(--amber); }
+  .channel-tag.alert { background: var(--red-light); color: var(--red); }
+  .channel-tag.info { background: var(--blue-light); color: var(--blue); }
+
+  /* ── INSIGHT BOX ── */
+  .insight {
+    border-radius: 8px; padding: 18px 22px; margin: 16px 0;
+    border-left: 3px solid transparent;
+  }
+  .insight-green { background: var(--green-light); border-left-color: var(--green); }
+  .insight-amber { background: var(--amber-light); border-left-color: var(--amber); }
+  .insight-red { background: var(--red-light); border-left-color: var(--red); }
+  .insight-neutral { background: var(--cream-2); border-left-color: var(--cream-3); }
+  .insight-accent { background: var(--accent-light); border-left-color: var(--accent); }
+  .insight-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .insight-green .insight-label { color: var(--green); }
+  .insight-amber .insight-label { color: var(--amber); }
+  .insight-red .insight-label { color: var(--red); }
+  .insight-neutral .insight-label { color: var(--ink-light); }
+  .insight-accent .insight-label { color: var(--accent); }
+  .insight-text { font-size: 14px; color: var(--ink-mid); line-height: 1.65; }
+  .insight-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ── DIAGNOSTIC ITEMS ── */
+  .diag-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 16px 0; border-bottom: 1px solid var(--cream-3);
+  }
+  .diag-item:last-child { border-bottom: none; }
+  .diag-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; margin-top: 2px;
+  }
+  .diag-icon-red { background: var(--red-light); }
+  .diag-icon-amber { background: var(--amber-light); }
+  .diag-icon-blue { background: var(--blue-light); }
+  .diag-content {}
+  .diag-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .diag-body { font-size: 13px; color: var(--ink-light); line-height: 1.6; }
+  .diag-body strong { color: var(--ink-mid); font-weight: 500; }
+  .code-pill {
+    font-family: monospace; font-size: 11px; background: var(--cream-2);
+    color: var(--ink-mid); padding: 1px 6px; border-radius: 4px;
+  }
+
+  /* ── OPPORTUNITY CARDS ── */
+  .opp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .opp-card {
+    background: white; border: 1px solid var(--cream-3);
+    border-radius: 12px; padding: 22px 22px 18px;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .opp-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .opp-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .opp-card.high::before { background: var(--green); }
+  .opp-card.mid::before { background: var(--amber); }
+  .opp-card.quick::before { background: var(--accent); }
+  .opp-num {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px;
+  }
+  .opp-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .opp-body { font-size: 13px; color: var(--ink-light); line-height: 1.6; margin-bottom: 12px; }
+  .opp-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .opp-tag {
+    font-size: 10px; padding: 3px 9px; border-radius: 20px;
+    font-weight: 500; letter-spacing: 0.03em;
+  }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+  .tag-accent { background: var(--accent-light); color: var(--accent); }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+
+  /* ── PRICING ALERT ── */
+  .pricing-visual {
+    background: white; border: 1px solid var(--cream-3);
+    border-radius: 10px; padding: 20px 24px; margin: 16px 0;
+  }
+  .pricing-visual-title { font-size: 12px; font-weight: 500; color: var(--ink-light); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .price-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .price-channel { font-size: 12px; color: var(--ink-light); min-width: 80px; }
+  .price-bar-track { flex: 1; height: 28px; background: var(--cream-2); border-radius: 6px; overflow: hidden; position: relative; }
+  .price-bar-fill {
+    height: 100%; border-radius: 6px;
+    display: flex; align-items: center; padding-left: 10px;
+    font-size: 11px; font-weight: 500; transition: width 0.6s ease;
+  }
+  .price-bar-full { background: #c8e6c9; color: #1b5e20; }
+  .price-bar-disc { background: #ffccbc; color: #bf360c; }
+  .price-note { font-size: 11px; color: var(--ink-light); min-width: 80px; text-align: right; }
+
+  /* ── ROADMAP ── */
+  .roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 20px; position: relative; }
+  .roadmap::before {
+    content: ''; position: absolute; top: 24px; left: 12.5%; right: 12.5%;
+    height: 2px; background: var(--cream-3); z-index: 0;
+  }
+  .rm-item { text-align: center; padding: 0 8px; position: relative; z-index: 1; }
+  .rm-dot {
+    width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; border: 2px solid white;
+  }
+  .rm-dot-1 { background: var(--accent-light); }
+  .rm-dot-2 { background: var(--blue-light); }
+  .rm-dot-3 { background: var(--amber-light); }
+  .rm-dot-4 { background: var(--green-light); }
+  .rm-phase { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .rm-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .rm-body { font-size: 11px; color: var(--ink-light); line-height: 1.55; }
+
+  /* ── CONTRIBUTION ── */
+  .contrib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .contrib-card {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: white; border: 1px solid var(--cream-3);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .contrib-icon {
+    font-size: 22px; flex-shrink: 0; width: 40px; height: 40px;
+    border-radius: 8px; background: var(--cream-2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .contrib-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .contrib-body { font-size: 12px; color: var(--ink-light); line-height: 1.55; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    border-top: 1px solid var(--cream-3); padding-top: 24px; margin-top: 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--ink-light);
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px 48px; }
+    .cover-title { font-size: 36px; }
+    .channel-grid { grid-template-columns: 1fr; }
+    .opp-grid { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: 1fr 1fr; }
+    .roadmap::before { display: none; }
+    .contrib-grid { grid-template-columns: 1fr; }
+    .cover-meta { gap: 20px; }
+  }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 32px; }
+    .opp-card:hover { transform: none; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <header class="cover fade-up">
+    <div class="cover-eyebrow">Análisis de oportunidad · Marzo 2026</div>
+    <h1 class="cover-title">DC Shoes · Ocean Pacific<br><em>· y más.</em></h1>
+    <p class="cover-sub">Un mapa inicial de lo que existe, lo que se puede optimizar y el potencial que veo si arrancamos esto bien.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>Versión</strong>Exploratoria 1.0</div>
+      <div class="cover-meta-item"><strong>Fecha</strong>Marzo 2026</div>
+    </div>
+  </header>
+
+  <!-- 1. POR QUÉ ME INTERESA -->
+  <section class="section fade-up-2">
+    <div class="section-num">01</div>
+    <h2 class="section-title">Por qué me interesa esta oportunidad</h2>
+    <p class="prose">Construí este análisis revisando los activos digitales públicos de las marcas: ecommerce, marketplaces, pauta visible. No es un diagnóstico definitivo — hay información que solo se valida desde adentro. Pero sí es suficiente para identificar oportunidades concretas de mejora.</p>
+    <p class="prose">Veo potencial real para <strong>potencializar el uso de la data y tomar mejores decisiones</strong> — más rápidas, más informadas, con menos margen de error. Con la infraestructura adecuada, cada peso en pauta rinde más, cada decisión de inventario se toma con información y el equipo puede construir estrategia en lugar de reaccionar.</p>
+  </section>
+
+  <!-- 2. PANORAMA -->
+  <section class="section fade-up-3">
+    <div class="section-num">02</div>
+    <h2 class="section-title">Panorama actual — qué existe hoy</h2>
+    <p class="prose">Las marcas operan en al menos cinco canales simultáneos. Cada uno con su propia lógica, sus propias métricas — y hasta donde puedo ver — sus propios silos de información.</p>
+
+    <div class="channel-grid">
+      <div class="channel-card">
+        <div class="channel-top">
+          <div class="channel-name">Ecommerce propio</div>
+          <span class="status-badge status-weak">Débil</span>
+        </div>
+        <div class="channel-brands">DC Shoes · Ocean Pacific · Skechers · Pepe Jeans</div>
+        <div class="channel-note">Plataforma VTEX activa. Problemas técnicos de SEO que limitan el tráfico orgánico.</div>
+        <span class="channel-tag warn">SEO por optimizar</span>
+      </div>
+      <div class="channel-card">
+        <div class="channel-top">
+          <div class="channel-name">Mercado Libre</div>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <div class="channel-brands">DC Shoes · Ocean Pacific</div>
+        <div class="channel-note">Dos tiendas oficiales separadas por marca. Pauta activa con "Oferta Imperdible" (ML Ads) visible.</div>
+        <span class="channel-tag info">Pauta ML Ads activa</span>
+      </div>
+      <div class="channel-card">
+        <div class="channel-top">
+          <div class="channel-name">Falabella.com</div>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <div class="channel-brands">DC Shoes · Ocean Pacific</div>
+        <div class="channel-note">Vendedor registrado como "Colombiana De Tenis". Descuentos de hasta -49% en temporada.</div>
+        <span class="channel-tag alert">-45% / -49% activo</span>
+      </div>
+      <div class="channel-card">
+        <div class="channel-top">
+          <div class="channel-name">Dafiti.com.co</div>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <div class="channel-brands">DC Shoes · Ocean Pacific</div>
+        <div class="channel-note">Vendedor registrado como "Branding Shoes". Mismos descuentos del -45% que en otros canales.</div>
+        <span class="channel-tag alert">-45% uniforme</span>
+      </div>
+      <div class="channel-card">
+        <div class="channel-top">
+          <div class="channel-name">Retail físico</div>
+          <span class="status-badge status-active">Activo</span>
+        </div>
+        <div class="channel-brands">Múltiples marcas</div>
+        <div class="channel-note">Tiendas propias en Cali (Chipichape) y otras ciudades. Canal con menor visibilidad digital.</div>
+        <span class="channel-tag">Bogotá · Medellín · Cali</span>
+      </div>
+    </div>
+
+    <div class="insight insight-neutral" style="margin-top:20px;">
+      <div class="insight-label">Pregunta clave sin responder todavía</div>
+      <div class="insight-text">¿Qué canal vende más? ¿Cuál tiene mejor margen real por unidad? ¿Dónde está concentrado el presupuesto de pauta? Estas preguntas solo se responden desde adentro — pero son el punto de partida para cualquier estrategia.</div>
+    </div>
+  </section>
+
+  <!-- 3. DIAGNÓSTICO -->
+  <section class="section fade-up">
+    <div class="section-num">03</div>
+    <h2 class="section-title">Diagnóstico — lo que encontré desde afuera</h2>
+
+    <div class="diag-item">
+      <div class="diag-icon diag-icon-red">🔗</div>
+      <div class="diag-content">
+        <div class="diag-title">URLs sin jerarquía en el ecommerce</div>
+        <div class="diag-body">Los productos tienen URLs planas como <span class="code-pill">/tenis-dc-shoes-pure-para-hombre-color-gris</span> en lugar de <span class="code-pill">/dc-shoes/hombre/tenis/pure</span>. Google no puede construir autoridad temática sobre páginas así — es tráfico orgánico de alta intención de compra que se pierde todos los días.</div>
+      </div>
+    </div>
+
+    <div class="diag-item">
+      <div class="diag-icon diag-icon-red">📂</div>
+      <div class="diag-content">
+        <div class="diag-title">Categorías configuradas como búsquedas (VTEX)</div>
+        <div class="diag-body">Las páginas de categoría usan product clusters en lugar del árbol nativo de VTEX. Resultado: URLs con parámetros <span class="code-pill">?fuzzy=auto&initialMap=ft...</span> que Google no indexa bien. VTEX sí permite URLs limpias — está mal configurado.</div>
+      </div>
+    </div>
+
+    <div class="diag-item">
+      <div class="diag-icon diag-icon-amber">🏷️</div>
+      <div class="diag-content">
+        <div class="diag-title">Descuento uniforme del -45% en todos los canales</div>
+        <div class="diag-body">El mismo descuento en Mercado Libre, Falabella y Dafiti sugiere una decisión de temporada aplicada de forma homogénea. <strong>¿Qué canal aguanta mejor el precio full? ¿Dónde rinde más un descuento menor?</strong> Sin datos cruzados, esta decisión se toma a ciegas.</div>
+      </div>
+    </div>
+
+    <div class="diag-item">
+      <div class="diag-icon diag-icon-amber">👤</div>
+      <div class="diag-content">
+        <div class="diag-title">Dos identidades de vendedor distintas</div>
+        <div class="diag-body">"Colombiana De Tenis" en Falabella y "Branding Shoes" en Dafiti y ML. Las reseñas y la reputación quedan fragmentadas entre dos nombres. Dificulta el análisis consolidado y la construcción de confianza en cada plataforma.</div>
+      </div>
+    </div>
+
+    <div class="diag-item">
+      <div class="diag-icon diag-icon-amber">📊</div>
+      <div class="diag-content">
+        <div class="diag-title">Pauta activa en marketplaces — oportunidad de optimización</div>
+        <div class="diag-body">Se confirma pauta activa en Mercado Libre (badge "Oferta Imperdible" = ML Ads). Es probable que también haya inversión en Falabella Ads y Dafiti Ads. <strong>Con reportes automáticos consolidados, se pueden tomar decisiones de pauta a tiempo: qué plataforma rinde más, qué producto responde mejor a la promoción y cuándo ajustar la inversión.</strong></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="pricing-visual">
+        <div class="pricing-visual-title">Ejemplo: DC Shoes — precio vs descuento activo por canal</div>
+        <div class="price-row">
+          <span class="price-channel">Precio full</span>
+          <div class="price-bar-track"><div class="price-bar-fill price-bar-full" style="width:100%">$329.900 — $449.900</div></div>
+        </div>
+        <div class="price-row">
+          <span class="price-channel">ML / Dafiti</span>
+          <div class="price-bar-track"><div class="price-bar-fill price-bar-disc" style="width:55%">$142.945 — $181.445 (-45%)</div></div>
+        </div>
+        <div class="price-row">
+          <span class="price-channel">Falabella</span>
+          <div class="price-bar-track"><div class="price-bar-fill price-bar-disc" style="width:51%">$171.990 — $280.990 (-49%)</div></div>
+        </div>
+        <p style="font-size:11px;color:var(--ink-light);margin-top:10px;">En Falabella conviven productos a precio full ($308.900 – $459.900) con otros en HotSale (-49%). Hay una estrategia de pricing que vale la pena entender y optimizar con datos: qué productos y en qué momentos responden mejor a cada esquema.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. OPORTUNIDADES -->
+  <section class="section fade-up">
+    <div class="section-num">04</div>
+    <h2 class="section-title">Lo que se puede hacer mucho mejor</h2>
+    <p class="prose">No es una lista de problemas — es el mapa de valor capturable con la infraestructura y el equipo correcto.</p>
+
+    <div class="opp-grid">
+      <div class="opp-card high">
+        <div class="opp-num">Oportunidad 01</div>
+        <div class="opp-title">Reportes automáticos de pauta en marketplaces</div>
+        <div class="opp-body">Extraer métricas de ML Ads, Falabella Ads y Dafiti Ads en un solo reporte semanal. Comparar rendimiento por canal y por marca. Detectar qué plataforma genera mejor retorno y ajustar la inversión con datos, no con intuición.</div>
+        <div class="opp-tags">
+          <span class="opp-tag tag-green">Alto impacto</span>
+          <span class="opp-tag tag-accent">Quick win</span>
+        </div>
+      </div>
+
+      <div class="opp-card high">
+        <div class="opp-num">Oportunidad 02</div>
+        <div class="opp-title">Dashboard consolidado de ventas multicanal</div>
+        <div class="opp-body">ML, Falabella, Dafiti y VTEX tienen APIs robustas. Conectarlas permite tener una sola vista semanal: ventas por canal, por marca, por SKU, con alertas automáticas de caídas de rendimiento o riesgo de ruptura de stock.</div>
+        <div class="opp-tags">
+          <span class="opp-tag tag-green">Alto impacto</span>
+          <span class="opp-tag tag-amber">Fase 2</span>
+        </div>
+      </div>
+
+      <div class="opp-card mid">
+        <div class="opp-num">Oportunidad 03</div>
+        <div class="opp-title">Estrategia de pricing diferenciada por canal</div>
+        <div class="opp-body">Con visibilidad cruzada, se puede identificar qué canal aguanta mejor el precio full, cuándo aplicar descuentos y en qué profundidad para maximizar margen, y cómo evitar que los marketplaces canibalicen el ecommerce propio.</div>
+        <div class="opp-tags">
+          <span class="opp-tag tag-amber">Impacto medio</span>
+          <span class="opp-tag tag-amber">Fase 2</span>
+        </div>
+      </div>
+
+      <div class="opp-card mid">
+        <div class="opp-num">Oportunidad 04</div>
+        <div class="opp-title">SEO y tráfico orgánico en ecommerce</div>
+        <div class="opp-body">Corrección técnica de VTEX (URLs limpias + árbol de categorías real). Inversión de tiempo acotada con retorno de largo plazo: tráfico gratuito de personas que ya buscan "tenis DC Shoes hombre Colombia" o "Ocean Pacific precio".</div>
+        <div class="opp-tags">
+          <span class="opp-tag tag-blue">Largo plazo</span>
+          <span class="opp-tag tag-amber">Fase 3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight insight-neutral" style="margin-top:16px; border-left-color: var(--ink-light);">
+      <div class="insight-label" style="color:var(--ink-light);">Oportunidad 05 — La más estratégica de todas</div>
+      <div class="insight-text" style="margin-bottom:12px;"><strong>Cuando el pareto de ventas está en marketplaces, el cliente es de la plataforma — no de la marca.</strong> No hay acceso al email del comprador, no se sabe quién repite, no se puede activar a nadie cuando llega nueva colección de DC Shoes o cuando Ocean Pacific lanza una colaboración. Todo ese conocimiento se queda en ML, Falabella o Dafiti.</div>
+      <div class="insight-text" style="margin-bottom:12px;">Construir canales propios — ecommerce optimizado, base de datos de clientes, email marketing — es lo que convierte compradores anónimos en clientes de la marca. Cada venta en brandingshoes.com es un cliente que la marca conoce, puede segmentar y puede activar cuando quiera, sin depender de los algoritmos de una plataforma externa.</div>
+      <div class="insight-text">No es un quick win. Es el activo más valioso que se puede construir a largo plazo — y el único que los marketplaces nunca te van a dar.</div>
+      <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+        <span class="opp-tag tag-blue">Estratégico</span>
+        <span class="opp-tag tag-blue">Largo plazo</span>
+        <span class="opp-tag tag-amber">Fase 3+</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ROADMAP -->
+  <section class="section fade-up">
+    <div class="section-num">05</div>
+    <h2 class="section-title">Cómo arrancaría — propuesta de fases</h2>
+
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-dot rm-dot-1">📡</div>
+        <div class="rm-phase">Mes 1</div>
+        <div class="rm-title">Base de datos</div>
+        <div class="rm-body">Conectar APIs de todos los canales. Primer reporte consolidado de ventas y pauta. Quick win visible desde semana 2.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot rm-dot-2">📊</div>
+        <div class="rm-phase">Mes 1–2</div>
+        <div class="rm-title">Visibilidad</div>
+        <div class="rm-body">Dashboard semanal automatizado. El negocio empieza a tener ojos sobre toda la operación en tiempo real.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot rm-dot-3">🎯</div>
+        <div class="rm-phase">Mes 3–4</div>
+        <div class="rm-title">Estrategia</div>
+        <div class="rm-body">Con 2–3 meses de datos: pricing por canal, calendario de promociones con criterio de margen y optimización de pauta.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot rm-dot-4">🚀</div>
+        <div class="rm-phase">Mes 4+</div>
+        <div class="rm-title">Escala</div>
+        <div class="rm-body">SEO técnico en VTEX, nurturing post-compra, alertas de inventario y expansión a nuevas marcas del portafolio.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LO QUE APORTO -->
+  <section class="section fade-up">
+    <div class="section-num">06</div>
+    <h2 class="section-title">Lo que yo aporto</h2>
+
+    <div class="contrib-grid">
+      <div class="contrib-card">
+        <div class="contrib-icon">⚙️</div>
+        <div>
+          <div class="contrib-title">Automatizaciones</div>
+          <div class="contrib-body">Infraestructura n8n ya operativa para conectar todos los canales y generar reportes sin intervención manual.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">📈</div>
+        <div>
+          <div class="contrib-title">Reportes de pauta</div>
+          <div class="contrib-body">Métricas de ML Ads, Falabella Ads y Dafiti Ads consolidadas con análisis de IA — listos cada lunes para actuar.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🗺️</div>
+        <div>
+          <div class="contrib-title">Visibilidad de negocio</div>
+          <div class="contrib-body">Dashboard multicanal: una sola vista de ventas, márgenes y rendimiento por canal y por marca.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">📐</div>
+        <div>
+          <div class="contrib-title">Estrategia de datos</div>
+          <div class="contrib-body">Qué medir, cómo interpretarlo y cómo conectarlo con decisiones comerciales concretas.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🔁</div>
+        <div>
+          <div class="contrib-title">Escalabilidad</div>
+          <div class="contrib-body">El mismo sistema se replica a nuevas marcas con costo marginal mínimo — crece con el negocio.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🔍</div>
+        <div>
+          <div class="contrib-title">Diagnóstico continuo</div>
+          <div class="contrib-body">Detectar oportunidades y problemas antes de que se conviertan en costos — como los que encontré aquí.</div>
+        </div>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon">🎯</div>
+        <div>
+          <div class="contrib-title">Marketing y go-to-market</div>
+          <div class="contrib-body">Experiencia en estrategia de marca, comunicación y go-to-market. Puedo aportar desde cómo posicionar cada marca en cada canal hasta cómo construir audiencia propia más allá de los marketplaces.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight insight-accent" style="margin-top:20px;">
+      <div class="insight-label">El diferencial</div>
+      <div class="insight-text">No es vender más en los mismos canales — eso ya lo intenta cualquiera. Es <strong>tomar decisiones mejores y más rápidas</strong> porque tenemos información que la competencia no tiene. Eso se construye desde el día 1, no cuando el negocio ya está corriendo.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="doc-footer fade-up">
+    <span>Análisis exploratorio v1.0 · Marzo 2026</span>
+    <span>Versión para conversación interna</span>
+  </footer>
+
+</div>
+</body>
+</html>
