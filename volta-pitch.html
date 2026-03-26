@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volta — La oportunidad</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --g: #00FF87;
+  --g2: #00CC70;
+  --k: #0A0A0A;
+  --w: #F5F5F0;
+  --gray: #888;
+  --light: #EEEEE9;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--k); color: var(--w); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 7vw;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(0,255,135,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-kicker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-kicker::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--g);
+}
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(52px, 8vw, 112px);
+  line-height: 0.92;
+  letter-spacing: -3px;
+  margin-bottom: 48px;
+  max-width: 900px;
+}
+.hero-title .ital {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--g);
+  letter-spacing: -2px;
+}
+.hero-sub {
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: rgba(245,245,240,0.55);
+  font-weight: 300;
+  max-width: 540px;
+  line-height: 1.75;
+  margin-bottom: 64px;
+}
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat-n {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  color: var(--g);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.stat-l { font-size: 12px; color: rgba(245,245,240,0.45); font-weight: 300; letter-spacing: 1px; }
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 7vw;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,245,240,0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: rgba(245,245,240,0.2);
+  animation: grow 2s ease-in-out infinite alternate;
+}
+@keyframes grow { to { width: 80px; } }
+
+/* ── SECTION BASE ── */
+section { padding: 120px 7vw; }
+.section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--g); }
+
+/* ── PROBLEMA ── */
+.problema { background: var(--k); }
+.problema-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(245,245,240,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+.prob-card {
+  background: #111;
+  padding: 48px 40px;
+  transition: background 0.3s;
+}
+.prob-card:hover { background: #161616; }
+.prob-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  color: rgba(0,255,135,0.12);
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: -3px;
+}
+.prob-text {
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(245,245,240,0.7);
+  font-weight: 300;
+}
+.prob-text strong { color: var(--w); font-weight: 500; }
+.problema-stmt {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.25;
+  color: rgba(245,245,240,0.4);
+  max-width: 800px;
+  border-left: 2px solid var(--g);
+  padding-left: 40px;
+}
+.problema-stmt em { color: var(--w); font-style: normal; }
+
+/* ── SOLUCIÓN ── */
+.solucion { background: var(--w); color: var(--k); }
+.solucion .section-label { color: var(--g2); }
+.solucion .section-label::before { background: var(--g2); }
+.sol-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1.0;
+  letter-spacing: -2px;
+  max-width: 800px;
+  margin-bottom: 64px;
+  color: var(--k);
+}
+.sol-headline span { color: var(--g2); }
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: #E0E0DC;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+.flow-step {
+  background: var(--w);
+  padding: 40px 28px;
+  position: relative;
+}
+.flow-step::after {
+  content: '→';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--g2);
+  z-index: 2;
+  background: var(--w);
+  padding: 4px 2px;
+}
+.flow-step:last-child::after { display: none; }
+.flow-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--g2);
+  margin-bottom: 16px;
+}
+.flow-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--k); margin-bottom: 10px; }
+.flow-desc { font-size: 13px; color: #666; line-height: 1.6; font-weight: 300; }
+.sol-diferencia {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  background: #E0E0DC;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.dif-card { background: var(--w); padding: 40px 32px; }
+.dif-card.highlight { background: var(--k); }
+.dif-marca { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 16px; }
+.dif-card.highlight .dif-marca { color: var(--g); }
+.dif-prop { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--k); line-height: 1.3; }
+.dif-card.highlight .dif-prop { color: var(--w); font-size: 24px; }
+.dif-sub { margin-top: 12px; font-size: 13px; color: #888; font-weight: 300; line-height: 1.5; }
+.dif-card.highlight .dif-sub { color: rgba(245,245,240,0.5); }
+
+/* ── OPORTUNIDAD ── */
+.oportunidad { background: #0D0D0D; }
+.opp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  margin-bottom: 80px;
+}
+.opp-big-n {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(72px, 10vw, 140px);
+  font-weight: 800;
+  color: var(--g);
+  letter-spacing: -6px;
+  line-height: 0.9;
+  margin-bottom: 16px;
+}
+.opp-desc { font-size: 16px; color: rgba(245,245,240,0.55); font-weight: 300; line-height: 1.7; }
+.opp-desc strong { color: var(--w); font-weight: 500; }
+.opp-items { display: flex; flex-direction: column; gap: 24px; margin-top: 16px; }
+.opp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 28px;
+  background: rgba(245,245,240,0.03);
+  border: 1px solid rgba(245,245,240,0.06);
+  border-radius: 2px;
+}
+.opp-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.opp-item-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--w); margin-bottom: 6px; }
+.opp-item-desc { font-size: 13px; color: rgba(245,245,240,0.5); font-weight: 300; line-height: 1.6; }
+.market-bar {
+  background: rgba(245,245,240,0.04);
+  border-radius: 2px;
+  padding: 48px 40px;
+}
+.mbar-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--g); font-weight: 500; margin-bottom: 40px; }
+.mbar-row { margin-bottom: 28px; }
+.mbar-label { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.mbar-name { font-size: 13px; color: rgba(245,245,240,0.6); font-weight: 300; }
+.mbar-val { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--g); }
+.mbar-track { height: 4px; background: rgba(245,245,240,0.08); border-radius: 2px; overflow: hidden; }
+.mbar-fill { height: 100%; background: var(--g); border-radius: 2px; transition: width 1.5s ease; width: 0; }
+
+/* ── PRODUCTO VIVO ── */
+.producto { background: var(--w); color: var(--k); }
+.producto .section-label { color: var(--g2); }
+.producto .section-label::before { background: var(--g2); }
+.prod-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  max-width: 700px;
+  margin-bottom: 64px;
+  line-height: 1.05;
+}
+.prod-headline em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--g2); }
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: #E0E0DC;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 56px;
+}
+.prod-card { background: var(--w); padding: 36px 28px; }
+.prod-icon { font-size: 28px; margin-bottom: 20px; }
+.prod-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--k); margin-bottom: 8px; }
+.prod-desc { font-size: 13px; color: #777; line-height: 1.6; font-weight: 300; }
+.prod-live {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: #E0E0DC;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.live-card { background: var(--w); padding: 28px 32px; display: flex; align-items: center; gap: 16px; }
+.live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--g2); flex-shrink: 0; }
+.live-text { font-size: 14px; color: #555; font-weight: 300; }
+.live-text strong { color: var(--k); font-weight: 500; }
+
+/* ── FINANCIERO ── */
+.financiero { background: var(--k); }
+.fin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(245,245,240,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 64px;
+}
+.fin-card { background: #111; padding: 44px 32px; }
+.fin-card.main { background: rgba(0,255,135,0.06); border: 1px solid rgba(0,255,135,0.15); }
+.fin-n {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  color: var(--g);
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.fin-label { font-size: 12px; color: rgba(245,245,240,0.4); font-weight: 300; letter-spacing: 0.5px; line-height: 1.5; }
+.fin-timeline { display: flex; flex-direction: column; gap: 0; }
+.fin-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 140px 140px;
+  gap: 0;
+  border-bottom: 1px solid rgba(245,245,240,0.05);
+}
+.fin-row.header { border-bottom: 1px solid rgba(245,245,240,0.1); }
+.fin-cell {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: rgba(245,245,240,0.5);
+  font-weight: 300;
+}
+.fin-cell.bold { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--w); font-size: 13px; }
+.fin-cell.green { color: var(--g); font-weight: 500; }
+.fin-cell.muted { color: rgba(245,245,240,0.25); }
+.fin-row.highlight { background: rgba(0,255,135,0.04); }
+.fin-row.total { background: rgba(0,255,135,0.06); border-top: 1px solid rgba(0,255,135,0.15); }
+.fin-row.total .fin-cell { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--g); font-size: 13px; }
+
+/* ── VISIÓN ── */
+.vision { background: #080808; }
+.vis-statement {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(32px, 4.5vw, 64px);
+  line-height: 1.2;
+  max-width: 900px;
+  margin-bottom: 80px;
+  color: rgba(245,245,240,0.35);
+}
+.vis-statement em { color: var(--w); font-style: normal; }
+.vis-statement .g { color: var(--g); font-style: normal; }
+.roadmap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(245,245,240,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rm-phase { background: #111; padding: 40px 32px; }
+.rm-phase.active { background: rgba(0,255,135,0.06); border: 1px solid rgba(0,255,135,0.12); }
+.rm-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(245,245,240,0.3); margin-bottom: 20px; }
+.rm-phase.active .rm-label { color: var(--g); }
+.rm-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--w); margin-bottom: 20px; line-height: 1.2; }
+.rm-items { display: flex; flex-direction: column; gap: 10px; }
+.rm-item { font-size: 13px; color: rgba(245,245,240,0.5); font-weight: 300; padding-left: 16px; position: relative; line-height: 1.5; }
+.rm-item::before { content: '·'; position: absolute; left: 0; color: var(--g); }
+.rm-phase.active .rm-item { color: rgba(245,245,240,0.7); }
+
+/* ── CTA ── */
+.cta-section {
+  background: var(--g);
+  padding: 120px 7vw;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 80px;
+  align-items: center;
+}
+.cta-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 800;
+  color: var(--k);
+  letter-spacing: -3px;
+  line-height: 0.95;
+}
+.cta-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -1px;
+}
+.cta-body { font-size: 16px; color: rgba(10,10,10,0.65); font-weight: 300; margin-top: 20px; max-width: 500px; line-height: 1.7; }
+.cta-right { text-align: center; flex-shrink: 0; }
+.cta-email {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--k);
+  text-decoration: none;
+  padding: 20px 40px;
+  border: 2px solid var(--k);
+  border-radius: 2px;
+  margin-bottom: 16px;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.cta-email:hover { background: var(--k); color: var(--g); }
+.cta-note { font-size: 12px; color: rgba(10,10,10,0.45); font-weight: 300; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--k);
+  padding: 40px 7vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(245,245,240,0.06);
+}
+.footer-brand { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: var(--g); letter-spacing: -0.5px; }
+.footer-note { font-size: 12px; color: rgba(245,245,240,0.25); }
+
+/* ── ANIMATIONS ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+@media (max-width: 768px) {
+  section { padding: 80px 6vw; }
+  .hero { padding: 80px 6vw; }
+  .problema-grid, .flow, .sol-diferencia, .prod-grid, .prod-live, .fin-grid, .roadmap { grid-template-columns: 1fr; }
+  .opp-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cta-section { grid-template-columns: 1fr; }
+  .cta-right { text-align: left; }
+  .fin-row { grid-template-columns: 100px 1fr 120px 0; }
+  .fin-cell:last-child { display: none; }
+  .flow-step::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-kicker">Volta · Oportunidad de co-fundación · 2026</div>
+  <h1 class="hero-title">
+    Tienes los datos.<br>
+    Te falta quien los<br>
+    <span class="ital">interprete.</span>
+  </h1>
+  <p class="hero-sub">Un atleta serio entrena 5 veces por semana, registra todo en su dispositivo y al final del mes no sabe si mejoró. Volta resuelve eso.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-n">42K</span>
+      <span class="stat-l">Corredores solo en la<br>Media Maratón de Bogotá</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">99%</span>
+      <span class="stat-l">Margen bruto<br>del negocio</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">4</span>
+      <span class="stat-l">Suscriptores para<br>cubrir costos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">Hoy</span>
+      <span class="stat-l">El producto ya<br>está en producción</span>
+    </div>
+  </div>
+  <div class="scroll-hint">Sigue leyendo</div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problema">
+  <div class="section-label">El problema</div>
+  <div class="problema-grid reveal">
+    <div class="prob-card">
+      <div class="prob-n">01</div>
+      <p class="prob-text"><strong>"Termino la semana y no sé si entrené bien o mal."</strong> Tengo los datos en mi Garmin, los veo en Strava, pero nadie me dice qué significan para mi objetivo.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-n">02</div>
+      <p class="prob-text"><strong>"Pago Strava Premium y sigo sin entender mi progreso."</strong> Las métricas están ahí. El contexto no.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-n">03</div>
+      <p class="prob-text"><strong>"Un coach real cuesta $300.000 al mes o más."</strong> Y aun así no analiza tus datos semana a semana con la profundidad que mereces.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-n">04</div>
+      <p class="prob-text"><strong>"Los planes de entrenamiento son rígidos."</strong> Viajé, dormí mal, tuve una semana difícil. El plan no lo sabe. Volta sí.</p>
+    </div>
+  </div>
+  <p class="problema-stmt reveal reveal-delay-1">
+    El atleta serio ya tiene los datos.<br>
+    Lo que no tiene es <em>alguien que los interprete</em><br>
+    y le diga qué hacer con ellos.
+  </p>
+</section>
+
+<!-- SOLUCIÓN -->
+<section class="solucion">
+  <div class="section-label">La solución</div>
+  <h2 class="sol-headline reveal">
+    Volta es el análisis<br>
+    inteligente que le falta<br>
+    a <span>cualquier</span> entrenamiento.
+  </h2>
+  <div class="flow reveal reveal-delay-1">
+    <div class="flow-step">
+      <div class="flow-n">01</div>
+      <div class="flow-title">Conecta tu dispositivo</div>
+      <div class="flow-desc">Garmin o COROS. Volta accede a tus actividades con tu autorización.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-n">02</div>
+      <div class="flow-title">Check-in semanal</div>
+      <div class="flow-desc">Cada domingo Volta te pregunta cómo te sentiste. 2 minutos por Telegram.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-n">03</div>
+      <div class="flow-title">Análisis real</div>
+      <div class="flow-desc">Volta cruza tus datos con tus sensaciones y genera un análisis personalizado.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-n">04</div>
+      <div class="flow-title">Qué ajustar</div>
+      <div class="flow-desc">No solo datos: 2-3 recomendaciones concretas cada semana. Y un reporte mensual completo.</div>
+    </div>
+  </div>
+  <div class="sol-diferencia reveal reveal-delay-2">
+    <div class="dif-card">
+      <div class="dif-marca">Strava</div>
+      <div class="dif-prop">Te da los datos</div>
+      <div class="dif-sub">COP 19.900/mes. Sin interpretación, sin recomendaciones.</div>
+    </div>
+    <div class="dif-card highlight">
+      <div class="dif-marca">Volta</div>
+      <div class="dif-prop">Te dice qué está pasando con tu entrenamiento y qué ajustar</div>
+      <div class="dif-sub">COP 24.900/mes. Análisis + contexto + recomendaciones.</div>
+    </div>
+    <div class="dif-card">
+      <div class="dif-marca">Runna</div>
+      <div class="dif-prop">Te da un plan fijo</div>
+      <div class="dif-sub">COP 34.900/mes. No sabe que tuviste una semana difícil.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OPORTUNIDAD -->
+<section class="oportunidad">
+  <div class="section-label">La oportunidad</div>
+  <div class="opp-grid">
+    <div>
+      <div class="opp-big-n reveal">42.000</div>
+      <p class="opp-desc reveal reveal-delay-1">
+        Corredores participaron en la <strong>Media Maratón de Bogotá 2025</strong> — y el número crece cada año. Eso es solo un evento, en una ciudad, en un deporte.
+        <br><br>
+        Suma ciclistas y triatletas. Suma el resto de Colombia. Suma LATAM. El mercado direccionable es de <strong>120.000 a 180.000 atletas serios</strong> con dispositivo y disposición a pagar.
+        <br><br>
+        Capturar el 1% del mercado colombiano = <strong>más de COP 300M anuales</strong> con la estructura de costos actual.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="opp-items">
+        <div class="opp-item">
+          <div class="opp-icon">📱</div>
+          <div>
+            <div class="opp-item-title">Sin app propia</div>
+            <div class="opp-item-desc">Volta vive en Telegram. Sin costo de desarrollo de app, sin tiendas, sin fricciones de descarga.</div>
+          </div>
+        </div>
+        <div class="opp-item">
+          <div class="opp-icon">⚡</div>
+          <div>
+            <div class="opp-item-title">Margen del 92%</div>
+            <div class="opp-item-desc">Costo variable de COP 2.013 por suscriptor. La infraestructura no escala con los usuarios.</div>
+          </div>
+        </div>
+        <div class="opp-item">
+          <div class="opp-icon">🌎</div>
+          <div>
+            <div class="opp-item-title">LATAM es el mercado</div>
+            <div class="opp-item-desc">Running y ciclismo están en auge en toda la región. Ningún competidor directo en español con este enfoque.</div>
+          </div>
+        </div>
+        <div class="opp-item">
+          <div class="opp-icon">🔒</div>
+          <div>
+            <div class="opp-item-title">Moat conversacional</div>
+            <div class="opp-item-desc">El check-in conversacional es imposible de replicar sin el historial del atleta. Cada semana Volta sabe más.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="market-bar reveal">
+    <div class="mbar-title">Mercado direccionable — Colombia y LATAM</div>
+    <div class="mbar-row">
+      <div class="mbar-label"><span class="mbar-name">TAM — Atletas con dispositivo en LATAM</span><span class="mbar-val">~500.000+</span></div>
+      <div class="mbar-track"><div class="mbar-fill" data-width="100"></div></div>
+    </div>
+    <div class="mbar-row">
+      <div class="mbar-label"><span class="mbar-name">SAM — Colombia (runners, ciclistas, triatletas)</span><span class="mbar-val">~120.000</span></div>
+      <div class="mbar-track"><div class="mbar-fill" data-width="70"></div></div>
+    </div>
+    <div class="mbar-row">
+      <div class="mbar-label"><span class="mbar-name">SOM Año 1 — Early adopters digitales</span><span class="mbar-val">265 (escenario base)</span></div>
+      <div class="mbar-track"><div class="mbar-fill" data-width="15"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTO VIVO -->
+<section class="producto">
+  <div class="section-label">Esto no es una idea</div>
+  <h2 class="prod-headline reveal">
+    El producto ya está<br>
+    <em>en producción.</em>
+  </h2>
+  <div class="prod-grid reveal reveal-delay-1">
+    <div class="prod-card">
+      <div class="prod-icon">🌐</div>
+      <div class="prod-name">Web completa</div>
+      <div class="prod-desc">getvolta.pro con 6 páginas, SEO optimizado, onboarding funcional, Privacy Policy en inglés y español.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-icon">⚙️</div>
+      <div class="prod-name">Flujo automatizado</div>
+      <div class="prod-desc">n8n orquesta el registro, el check-in semanal, el análisis con IA y el reporte mensual. Todo funciona hoy.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-icon">📡</div>
+      <div class="prod-name">APIs en proceso</div>
+      <div class="prod-desc">Solicitudes enviadas a Garmin Connect y COROS. Webhooks configurados y listos para activar.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-icon">🤖</div>
+      <div class="prod-name">IA configurada</div>
+      <div class="prod-desc">Gemini 2.5 Flash para el check-in conversacional. Migración a Claude API planificada para V2.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-icon">📧</div>
+      <div class="prod-name">Email corporativo</div>
+      <div class="prod-desc">start@getvolta.pro con SPF, DKIM y reputación configurada. Emails de bienvenida HTML funcionando.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-icon">📊</div>
+      <div class="prod-name">Infraestructura lista</div>
+      <div class="prod-desc">Digital Ocean + Caddy + Cloudflare. Costos fijos de COP 80.680/mes. Escalable sin rediseño.</div>
+    </div>
+  </div>
+  <div class="prod-live reveal reveal-delay-2">
+    <div class="live-card"><div class="live-dot"></div><div class="live-text"><strong>getvolta.pro</strong> — en producción hoy</div></div>
+    <div class="live-card"><div class="live-dot"></div><div class="live-text"><strong>@volta_pro_bot</strong> — bot activo en Telegram</div></div>
+    <div class="live-card"><div class="live-dot"></div><div class="live-text"><strong>Garmin + COROS</strong> — solicitudes de API enviadas</div></div>
+    <div class="live-card"><div class="live-dot"></div><div class="live-text"><strong>Piloto</strong> — inicio abril 2026</div></div>
+  </div>
+</section>
+
+<!-- FINANCIERO -->
+<section class="financiero">
+  <div class="section-label">Los números</div>
+  <div class="fin-grid reveal">
+    <div class="fin-card">
+      <div class="fin-n">COP 24.900</div>
+      <div class="fin-label">Precio mensual por suscriptor</div>
+    </div>
+    <div class="fin-card main">
+      <div class="fin-n">92%</div>
+      <div class="fin-label">Margen bruto<br>después de Stripe + IA</div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-n">4</div>
+      <div class="fin-label">Suscriptores necesarios<br>para cubrir todos los costos</div>
+    </div>
+  </div>
+  <div class="fin-timeline reveal reveal-delay-1">
+    <div class="fin-row header">
+      <div class="fin-cell bold">Mes</div>
+      <div class="fin-cell bold">Evento</div>
+      <div class="fin-cell bold">Ingresos</div>
+      <div class="fin-cell bold">Utilidad</div>
+    </div>
+    <div class="fin-row">
+      <div class="fin-cell muted">Abr–Jun</div>
+      <div class="fin-cell muted">Free trial — piloto</div>
+      <div class="fin-cell muted">—</div>
+      <div class="fin-cell muted">—</div>
+    </div>
+    <div class="fin-row">
+      <div class="fin-cell">Jul 2026</div>
+      <div class="fin-cell">Primeros cobros · 20 suscriptores</div>
+      <div class="fin-cell">COP 498.000</div>
+      <div class="fin-cell green">COP 377.000</div>
+    </div>
+    <div class="fin-row">
+      <div class="fin-cell">Sep 2026</div>
+      <div class="fin-cell">Media Maratón Bogotá · 65 suscriptores</div>
+      <div class="fin-cell">COP 1.618.500</div>
+      <div class="fin-cell green">COP 1.406.000</div>
+    </div>
+    <div class="fin-row highlight">
+      <div class="fin-cell bold">Dic 2026</div>
+      <div class="fin-cell bold">265 suscriptores</div>
+      <div class="fin-cell bold">COP 6.598.500</div>
+      <div class="fin-cell green">COP 5.984.000</div>
+    </div>
+    <div class="fin-row total">
+      <div class="fin-cell">Total 2026</div>
+      <div class="fin-cell">Escenario base conservador</div>
+      <div class="fin-cell">COP 17.056.500</div>
+      <div class="fin-cell">COP 15.038.000</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISIÓN -->
+<section class="vision">
+  <div class="section-label">La visión</div>
+  <p class="vis-statement reveal">
+    En 5 años, <em>cada atleta serio en LATAM</em> que tenga un dispositivo<br>
+    va a querer entender sus datos de verdad.<br>
+    <span class="g">Volta va a ser la respuesta.</span>
+  </p>
+  <div class="roadmap reveal reveal-delay-1">
+    <div class="rm-phase active">
+      <div class="rm-label">Ahora · 2026</div>
+      <div class="rm-title">MVP y primeros atletas</div>
+      <div class="rm-items">
+        <div class="rm-item">Web + onboarding en producción</div>
+        <div class="rm-item">Integración Garmin y COROS</div>
+        <div class="rm-item">Check-in conversacional con Claude API</div>
+        <div class="rm-item">265 suscriptores pagos a diciembre</div>
+        <div class="rm-item">Lanzamiento oficial junio 2026</div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-label">2027</div>
+      <div class="rm-title">Escala en Colombia y LATAM</div>
+      <div class="rm-items">
+        <div class="rm-item">1.000+ suscriptores</div>
+        <div class="rm-item">Badges y gamificación</div>
+        <div class="rm-item">Indicadores avanzados (Fitness & Freshness)</div>
+        <div class="rm-item">Expansión a México y Argentina</div>
+        <div class="rm-item">PostgreSQL + infraestructura escalable</div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-label">2028+</div>
+      <div class="rm-title">El estándar de análisis deportivo en LATAM</div>
+      <div class="rm-items">
+        <div class="rm-item">Planes de entrenamiento personalizados</div>
+        <div class="rm-item">Apple Watch, Polar, Suunto</div>
+        <div class="rm-item">Dashboard web del atleta</div>
+        <div class="rm-item">B2B con academias y clubes deportivos</div>
+        <div class="rm-item">+10.000 atletas en la plataforma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div>
+    <h2 class="cta-title">
+      El producto existe.<br>
+      La oportunidad es<br>
+      <em>ahora.</em>
+    </h2>
+    <p class="cta-body">Estamos buscando co-fundadores que quieran construir el estándar de análisis deportivo en LATAM. Si sientes que esto es para ti, hablemos.</p>
+  </div>
+  <div class="cta-right">
+    <a href="mailto:patricia@getvolta.pro" class="cta-email">Escribir a Patricia →</a>
+    <div class="cta-note">patricia@getvolta.pro</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Volta</div>
+  <div class="footer-note">getvolta.pro · Bogotá, Colombia · 2026</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Barras de mercado
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.mbar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+      barObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.market-bar').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>
